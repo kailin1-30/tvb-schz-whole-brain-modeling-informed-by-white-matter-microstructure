@@ -1,6 +1,10 @@
 # function to load our model parameters and the structural connectivity of the dataset
 
-def load(PATH)
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def load(PATH):
     metrics = ["ADC", "gFA", "number", "density"]
     J_i = {}
     wFFI = {}
@@ -25,14 +29,14 @@ def load(PATH)
 
     return J_i, wFFI, wLRE, SC_all, region, region_labels
 
-def visualize_BOLD(data)
-    data = bold_signal.data.squeeze()
-    print(len(data))
+def visualize_BOLD(data):
+    signal = data['data']
+    print(len(signal))
 
-    time_s = bold_signal.time / 1000.0
+    time_s = data['time'] / 1000.0
 
     plt.figure(figsize=(12, 6))
-    plt.plot(time_s, data, alpha=0.5)
+    plt.plot(time_s, signal, alpha=0.5)
     plt.title('Simulated BOLD Signal')
     plt.xlabel('Time Points')
     plt.ylabel('BOLD Signal')

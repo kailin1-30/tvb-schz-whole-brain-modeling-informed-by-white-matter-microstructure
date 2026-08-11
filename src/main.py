@@ -1,8 +1,22 @@
+import os
+
+import numpy as np
+import jax
+
+from tvboptim.experimental.network_dynamics import Network, prepare
+from tvboptim.experimental.network_dynamics.graph import DenseGraph
+from tvboptim.experimental.network_dynamics.solvers import Heun, BoundedSolver
+from tvboptim.experimental.network_dynamics.noise import AdditiveNoise
+from tvboptim.observations.tvb_monitors.bold import Bold
+
+from network import ReducedWongWangEIB, EIBLinearCoupling
+from tools import load
 
 PATH = "/Users/lin/Documents/Bachelor thesis /"
-PATH_result = "/Users/lin/Documents/Bachelor thesis /hallucinations/tvb-schz-whole-brain-modeling-informed-by-white-matter-microstructure/outputs"
+PATH_result = os.path.join(os.path.dirname(__file__), "..", "outputs")
+os.makedirs(PATH_result, exist_ok=True)
 
-self.load(PATH)
+J_i, wFFI, wLRE, SC_all, region, region_labels = load(PATH)
 
 weights = SC_all['ADC']['schz1'][83]
 
@@ -38,9 +52,6 @@ bold_monitor = Bold(
     history=result_init
 )
 
-data = bold_signal.data.squeeze()
-np.save(f"{PATH_result}/BOLD_signal.npy", data)
-
 model_long, state_long = prepare(network, solver, t1=t1_long, dt=dt)
 
 state_long.dynamics.J_i            = J_i['ADC']['schz1']
@@ -51,4 +62,7 @@ print("Running forward simulation...")
 
 raw_result = model_long(state_long)
 bold_signal = bold_monitor(raw_result)
+
+data = {'data': bold_signal.data.squeeze(), 'time': bold_signal.time}
+np.save(f"{PATH_result}/BOLD_signal.npy", data)
 

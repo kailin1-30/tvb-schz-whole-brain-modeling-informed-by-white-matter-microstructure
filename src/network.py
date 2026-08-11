@@ -1,6 +1,7 @@
 
 # define class ReducedWongWangEIB:
 from typing import Tuple
+import jax.numpy as jnp
 from tvboptim.experimental.network_dynamics.dynamics.base import AbstractDynamics
 from tvboptim.experimental.network_dynamics.core.bunch import Bunch
 
