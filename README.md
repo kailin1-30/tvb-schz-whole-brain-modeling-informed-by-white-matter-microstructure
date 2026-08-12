@@ -10,12 +10,21 @@ temporalpole, superiortemporal, bankssts
 ```
 .
 ├── notebooks/
-│   └── bold_forward_sim.ipynb   # Forward BOLD simulation, exploratory analysis
+│   ├── bold_forward_sim.ipynb        # Original monolithic exploratory notebook
+│   ├── visualization.ipynb           # Plots the BOLD signal saved by src/main.py
+│   └── classification_analysis.ipynb # Accuracy + FP/FN stats and plots from src/classify.py output
 ├── src/
-│   └── bold_forward_sim.py      # Script version of the forward simulation
+│   ├── network.py       # ReducedWongWangEIB dynamics + EIBLinearCoupling
+│   ├── tools.py          # load() for model params/SC, visualize_BOLD()
+│   ├── main.py            # Forward BOLD simulation (single subject) -> outputs/BOLD_signal.npy
+│   ├── experiment.py      # Multi-subject/seed stimulation experiment -> results + labels
+│   └── classify.py        # SGD classifier on experiment results -> accuracies, FP/FN
+├── outputs/              # Local run outputs (gitignored)
 ├── requirements.txt
 └── README.md
 ```
+
+Run order for the classification pipeline: `main.py` (single-subject sanity check) → `experiment.py` (multi-subject/seed stimulation runs, saves `results`/`labels`) → `classify.py` (trains classifier on those results, saves accuracies + FP/FN) → `classification_analysis.ipynb` (stats + plots).
 
 ## Requirements
 
