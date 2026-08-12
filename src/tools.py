@@ -25,7 +25,7 @@ def load(PATH):
             wLRE[metric][subj] = file["wLRE"]
 
     region = np.load(f"{PATH}/reg_labels_Hagmann83.npy", allow_pickle=True)
-    region_labels = np.load(f"{PATH}/Data/reg_labels_Hagmann129.npy", allow_pickle=True)
+    region_labels = np.load(f"{PATH}/Data/reg_labels_Hagmann83.npy", allow_pickle=True)
 
     return J_i, wFFI, wLRE, SC_all, region, region_labels
 
@@ -42,4 +42,5 @@ def visualize_BOLD(data):
     plt.ylabel('BOLD Signal')
     plt.legend()
     plt.grid()
+    plt.savefig("BOLD_signal.pdf", '/Users/lin/Documents/Bachelor thesis /hallucinations/tvb-schz-hallucinations/outputs')
     plt.show()
