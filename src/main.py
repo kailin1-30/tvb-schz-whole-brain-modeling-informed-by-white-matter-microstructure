@@ -12,7 +12,7 @@ from tvboptim.observations.tvb_monitors.bold import Bold
 from network import ReducedWongWangEIB, EIBLinearCoupling
 from tools import load
 
-PATH = "/Users/lin/Documents/Bachelor thesis /"
+PATH = os.path.join(os.path.dirname(__file__), "..", "data")
 PATH_result = os.path.join(os.path.dirname(__file__), "..", "outputs")
 os.makedirs(PATH_result, exist_ok=True)
 

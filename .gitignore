@@ -14,3 +14,6 @@ env/
 *.npz
 *.pdf
 *.png
+
+/data/
+/outputs/

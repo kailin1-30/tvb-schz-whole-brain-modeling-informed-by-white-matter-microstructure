@@ -1,4 +1,6 @@
 # classification using SGD
+import os
+
 import numpy as np
 
 from sklearn.linear_model import SGDClassifier
@@ -10,8 +12,8 @@ from sklearn.model_selection import train_test_split
 
 from tools import load
 
-PATH_DATA = "/Users/lin/Documents/Bachelor thesis /"
-J_i, wFFI, wLRE, SC_all, region, region_labels = load(PATH_DATA)
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data")
+J_i, wFFI, wLRE, SC_all, region, region_labels = load(DATA_PATH)
 
 # temp_results = results
 # temp_labels = labels
@@ -21,9 +23,12 @@ AMPLITUDE = 0.01
 SPLITS = 20
 DURATION = 500 #in ms
 SEED = 100
-PATH = f"/Users/lin/Documents/Bachelor thesis /hallucinations/simulations/results/S_i_S_e/10subj_{DURATION}_{AMPLITUDE}_{SEED}"
-PATH_LABEL = f"/Users/lin/Documents/Bachelor thesis /hallucinations/simulations/results/S_i_S_e/10subj_{DURATION}_{AMPLITUDE}_{SEED}_labels"
-PATH_ACCURACY = f"/Users/lin/Documents/Bachelor thesis /hallucinations/simulations/results/S_i_S_e/all_{DURATION}_{AMPLITUDE}_{SEED}_accuracy"
+RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs", "S_i_S_e")
+PATH = os.path.join(RESULTS_DIR, f"10subj_{DURATION}_{AMPLITUDE}_{SEED}.npy")
+PATH_LABEL = os.path.join(RESULTS_DIR, f"10subj_{DURATION}_{AMPLITUDE}_{SEED}_labels.npy")
+ACCURACY_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs", "accuracy")
+os.makedirs(ACCURACY_DIR, exist_ok=True)
+PATH_ACCURACY = os.path.join(ACCURACY_DIR, f"all_{DURATION}_{AMPLITUDE}_{SEED}_accuracy")
 SUBJECTS = SC_all[metric].keys()
 # Load the results and labels
 results = np.load(PATH, allow_pickle=True).item()

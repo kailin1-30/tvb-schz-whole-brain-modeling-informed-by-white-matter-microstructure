@@ -20,6 +20,7 @@ temporalpole, superiortemporal, bankssts
 │   ├── experiment.py      # Multi-subject/seed stimulation experiment -> results + labels
 │   └── classify.py        # SGD classifier on experiment results -> accuracies, FP/FN
 ├── outputs/              # Local run outputs (gitignored)
+├── data/                 # Local input data (gitignored, see Data section below)
 ├── requirements.txt
 └── README.md
 ```
@@ -36,5 +37,30 @@ pip install -r requirements.txt
 
 ## Data
 
-The notebook/script currently reference local absolute paths (e.g. structural connectivity matrices, region labels, parameter files) that live outside this repository. Update those paths to point to your own copies of the data before running.
+All code reads input data from `data/` (relative to the repo root) and writes results to `outputs/` — neither is committed to git. `data/` is expected to contain:
+
+```
+data/
+├── SC_matrices/
+│   ├── ADC/ADC_allsubj_Hagmann.npy
+│   ├── gFA/gFA_allsubj_Hagmann.npy
+│   ├── number/number_allsubj_Hagmann.npy
+│   └── density/density_allsubj_Hagmann.npy
+├── E_I tuning model/
+│   ├── ADC/ADC_param_83_<subject>.npy   # one file per subject
+│   ├── gFA/...
+│   ├── number/...
+│   └── density/...
+└── Data/
+    └── reg_labels_Hagmann83.npy
+```
+
+This data is shared with other notebooks/analyses outside this repo, so rather than copying it in, `data/` holds symlinks to the original folders:
+
+```bash
+mkdir -p data
+ln -s /path/to/SC_matrices          "data/SC_matrices"
+ln -s "/path/to/E_I tuning model"   "data/E_I tuning model"
+ln -s /path/to/Data                 "data/Data"
+```
 

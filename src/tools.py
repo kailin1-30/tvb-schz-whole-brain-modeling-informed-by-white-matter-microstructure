@@ -1,5 +1,7 @@
 # function to load our model parameters and the structural connectivity of the dataset
 
+import os
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -24,7 +26,7 @@ def load(PATH):
             wFFI[metric][subj] = file["wFFI"]
             wLRE[metric][subj] = file["wLRE"]
 
-    region = np.load(f"{PATH}/reg_labels_Hagmann83.npy", allow_pickle=True)
+    region = np.load(f"{PATH}/Data/reg_labels_Hagmann83.npy", allow_pickle=True)
     region_labels = np.load(f"{PATH}/Data/reg_labels_Hagmann83.npy", allow_pickle=True)
 
     return J_i, wFFI, wLRE, SC_all, region, region_labels
@@ -42,5 +44,6 @@ def visualize_BOLD(data):
     plt.ylabel('BOLD Signal')
     plt.legend()
     plt.grid()
-    plt.savefig("BOLD_signal.pdf", '/Users/lin/Documents/Bachelor thesis /hallucinations/tvb-schz-hallucinations/outputs')
+    outputs_dir = os.path.join(os.path.dirname(__file__), "..", "outputs")
+    plt.savefig(os.path.join(outputs_dir, "BOLD_signal.pdf"))
     plt.show()

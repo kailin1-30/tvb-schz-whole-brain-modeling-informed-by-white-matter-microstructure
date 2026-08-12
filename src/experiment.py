@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import jax
 import jax.numpy as jnp
@@ -12,8 +14,8 @@ from tvboptim.observations.tvb_monitors.bold import Bold
 from network import ReducedWongWangEIB, EIBLinearCoupling
 from tools import load
 
-PATH = "/Users/lin/Documents/Bachelor thesis /"
-J_i, wFFI, wLRE, SC_all, region, region_labels = load(PATH)
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data")
+J_i, wFFI, wLRE, SC_all, region, region_labels = load(DATA_PATH)
 
 # define labels for classification of participants
 labels = []
@@ -27,8 +29,10 @@ AMPLITUDE = 0.01
 SPLITS = 10
 DURATION = 500 #in ms
 SEED = 100
-PATH = f"/Users/lin/Documents/Bachelor thesis /hallucinations/simulations/results/S_i_S_e/10subj_{DURATION}_{AMPLITUDE}_{SEED}.npy"
-PATH_LABEL = f"/Users/lin/Documents/Bachelor thesis /hallucinations/simulations/results/S_i_S_e/10subj_{DURATION}_{AMPLITUDE}_{SEED}_labels.npy"
+RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs", "S_i_S_e")
+os.makedirs(RESULTS_DIR, exist_ok=True)
+PATH = os.path.join(RESULTS_DIR, f"{DURATION}_{AMPLITUDE}_{SEED}.npy")
+PATH_LABEL = os.path.join(RESULTS_DIR, f"{DURATION}_{AMPLITUDE}_{SEED}_labels.npy")
 
 
 subjects = SUBJECTS
@@ -163,5 +167,5 @@ for metric in metrics:
 
 labels      = np.array(labels)       # shape: [number of subjects * number of stim conditions * number of seeds]
 subject_ids = np.array(subject_ids)
-np.save(f"{PATH}.npy", results)
-np.save(f"{PATH_LABEL}.npy", labels)
+np.save(PATH, results)
+np.save(PATH_LABEL, labels)
